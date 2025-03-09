@@ -1,0 +1,17 @@
+---
+- name: Ping Google and check success
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping Google
+      shell: ping -c 2 google.com
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Check if successful
+      set_fact:
+        ping_success: "{{ ping_result.rc == 0 }}"
+    
+    - name: Display ping result
+      debug:
+        msg: "Ping success: {{ ping_success }}"
